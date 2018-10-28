@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>ConvNetJS demo: Image Painting</title>
+<title>ConvNetJS演示：图像绘画</title>
 <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="css/style.css">
 
@@ -34,11 +34,11 @@ canvas {
 <body>
 
 <div id="wrap">
-<h1><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvnetJS</a> demo: Image "Painting"</h1>
+<h1><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvnetJS</a>演示：图像“绘画”</h1>
 
-<p>This demo that treats the pixels of an image as a learning problem: it takes the (x,y) position on a grid and learns to predict the color at that point using regression to (r,g,b). It's a bit like compression, since the image information is encoded in the weights of the network, but almost certainly not of practical kind :)</p>
+<p>此演示将图像的像素视为学习问题：它采用网格上的（x，y）位置，并使用回归（r，g，b）学习预测该点的颜色。 这有点像压缩，因为图像信息是以网络的权重编码的，但几乎肯定不是实用的:)</p>
 <p>
-  Note that the entire ConvNetJS definition is shown in textbox below and it gets eval()'d to create the network, so feel free to fiddle with the parameters and hit "reload". I found that, empirically and interestingly, deeper networks tend to work much better on this task given a fixed parameter budget.
+  请注意，整个ConvNetJS定义显示在下面的文本框中，它得到eval()函数返回的值以创建网络，因此可以随意摆弄参数并点击“重新加载”。根据经验和有趣的情况，考虑到固定的参数预算，更深层的网络往往在这项任务上工作得更好。
 </p>
 
 <p>Report questions/bugs/suggestions to <a href="https://twitter.com/karpathy">@karpathy</a>.</p>
@@ -48,7 +48,7 @@ canvas {
 <input id="buttontp" type="submit" value="reload network" onclick="reload();" style="width: 200px; height: 30px;"/>
 
 <div style="float: right;">
-Choose your own image: 
+选择你自己的图象: 
 <input id="f" type="file" />
 </div>
 
@@ -56,11 +56,11 @@ Choose your own image:
 
 <div style="background-color: #EEE; padding: 10px; margin-top: 10px;">
 <div style="float: left; margin-left: 200px;">
-  Original Image<br>
+  原始图像<br>
   <canvas id="canv_original"></canvas>
 </div>
 <div style="float: left; margin-left: 10px;">
-  Neural Network output<br>
+  神经网络输出<br>
   <canvas id="canv_net"></canvas>
 </div>
 
@@ -71,13 +71,13 @@ Choose your own image:
 <div id="report"></div>
 <br>
 
-<div id="lr">Learning rate:</div>
+<div id="lr">学习率:</div>
 <div id="slider"></div>
-<div>The learning rate should probably be decreased over time (slide left) to let the network better overfit the training data. It's nice to not have to worry about overfitting.</div>
+<div>学习率应该随着时间的推移而降低（向左滑动），以使网络更好地过度训练训练数据。 很高兴不必担心过度拟合。</div>
 
 <br><br>
 <div>
-  You can upload your own image above (click Choose File), or you can click on any of the images below to load them.
+  您可以上传您自己的图像（单击选择文件），或者您可以单击下面的任何图像来加载它们。
 </div>
 <div id="gallery">
   <img src="imgs/cat.jpg" class="ci" />
@@ -102,7 +102,7 @@ Choose your own image:
 </div>
 
 <br><br>
-<p>Go <a href="http://cs.stanford.edu/people/karpathy/convnetjs/">back to ConvNetJS</a></p>
+<p><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvNetJS</a></p>
 
 </div>
 
