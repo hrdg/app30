@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>ConvNetJS CIFAR-10 demo</title>
+  <title>ConvNetJS CIFAR-10 演示</title>
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="stylesheet" href="css/style.css">
@@ -57,36 +57,36 @@
 </head>
 <body>
   <div id="wrap">
-  <h2 style="text-align: center;"><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvNetJS</a> CIFAR-10 demo</h2>
-  <h1>Description</h1>
+  <h2 style="text-align: center;"><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvNetJS</a> CIFAR-10 演示</h2>
+  <h1>描述</h1>
   <p>
-    This demo trains a Convolutional Neural Network on the <a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10 dataset</a> in your browser, with nothing but Javascript. The state of the art on this dataset is about 90% accuracy and human performance is at about 94% (not perfect as the dataset can be a bit ambiguous). I used <a href="cifar10_parse.zip">this python script</a> to parse the <a href="http://www.cs.toronto.edu/~kriz/cifar.html">original files</a> (python version) into batches of images that can be easily loaded into page DOM with img tags.
+    这个演示在您的浏览器中训练<a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10数据集</a>上的卷积神经网络，只有Javascript。 该数据集的最新技术水平约为90％，人类表现约为94％（不完美，因为数据集可能有点含糊不清）。 我使用这个<a href="cifar10_parse.zip">python脚本</a>将<a href="http://www.cs.toronto.edu/~kriz/cifar.html">原始文件</a>（python版本）解析为可以使用img标签轻松加载到页面DOM中的批量图像。
   </p>
-  <p>This dataset is more difficult and it takes longer to train a network. Data augmentation includes random flipping and random image shifts by up to 2px horizontally and verically.</p>
+  <p>这个数据集更加困难，培训网络需要更长的时间。 数据增强包括随机翻转和水平和逻辑上最多2px的随机图像移位。</p>
   <p>
-    By default, in this demo we're using Adadelta which is one of per-parameter adaptive step size methods, so we don't have to worry about changing learning rates or momentum over time. However, I still included the text fields for changing these if you'd like to play around with SGD+Momentum trainer.
+    默认情况下，在本演示中，我们使用的是Adadelta，它是每个参数的自适应步长方法之一，因此我们不必担心随着时间的推移而改变学习率或动量。 这里仍然会包含用于更改这些内容的文本字段，以方便使用SGD + Momentum训练器的选项。
   </p>
   <p>Report questions/bugs/suggestions to <a href="https://twitter.com/karpathy">@karpathy</a>.</p>
-  <h1>Training Stats</h1>
+  <h1>训练统计</h1>
   <div class="divsec" style="270px;">
     <div class="secpart">
       <input id="buttontp" type="submit" value="pause" onclick="toggle_pause();"/>
       <div id="trainstats"></div>
 
       <div id="controls">
-        Learning rate: <input name="lri" type="text" maxlength="20" id="lr_input"/>
+        学习率: <input name="lri" type="text" maxlength="20" id="lr_input"/>
         <input id="buttonlr" type="submit" value="change" onclick="change_lr();"/>
         <br />
 
-        Momentum: <input name="momi" type="text" maxlength="20" id="momentum_input"/>
+        动量: <input name="momi" type="text" maxlength="20" id="momentum_input"/>
         <input id="buttonmom" type="submit" value="change" onclick="change_momentum();"/>
         <br />
 
-        Batch size: <input name="bsi" type="text" maxlength="20" id="batch_size_input"/>
+        批量大小: <input name="bsi" type="text" maxlength="20" id="batch_size_input"/>
         <input id="buttonbs" type="submit" value="change" onclick="change_batch_size();"/>
         <br />
 
-        Weight decay: <input name="wdi" type="text" maxlength="20" id="decay_input"/>
+        权重衰减: <input name="wdi" type="text" maxlength="20" id="decay_input"/>
         <input id="buttonwd" type="submit" value="change" onclick="change_decay();"/>
       </div>
 
@@ -108,7 +108,7 @@
     </div>
     <div class="secpart"> 
       <div id="upload_box">
-        Test an image from your computer:
+        通过您的计算机测试图像:
         <div id="img_div">
             <img id="preview_img"/>
         </div>
@@ -120,19 +120,19 @@
     <div style="clear:both;"></div>
   </div>
 
-  <h1>Instantiate a Network and Trainer</h1>
+  <h1>实例化网络和培训器</h1>
   <div>
     <textarea id="newnet" style="width:100%; height:200px;"></textarea><br />
     <input id="buttonnn" type="submit" value="change network" onclick="change_net();" style="width:200px;height:30px;"/>
   </div>
 
   <div class="divsec">
-  <h1>Network Visualization</h1>
+  <h1>网络可视化</h1>
     <div id="visnet"></div>
   </div>
   
   <div class="divsec">
-  <h1>Example predictions on Test set</h1>
+  <h1>测试集的示例预测</h1>
     <div id="testset_acc"></div>
     <div id="testset_vis"></div>
   </div>
