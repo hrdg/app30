@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>ConvNetJS demo: Classify toy 2D data</title>
+<title>ConvNetJS演示：对玩具2D数据进行分类</title>
 <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="css/style.css">
 
@@ -38,11 +38,11 @@ canvas {
 <body onLoad="NPGinit(10);">
 
 <div id="wrap">
-<h1><a href="http://cs.stanford.edu/people/karpathy/convnetjs">ConvnetJS</a> demo: toy 1d regression</h1>
+<h1><a href="http://cs.stanford.edu/people/karpathy/convnetjs">ConvnetJS</a>演示：对玩具2D数据进行分类</h1>
 
-<p>The simulation below is a 1-dimensional regression where a neural network is trained to regress to y coordinates for every given point x through an L2 loss. That is, the minimized cost function computes the squared difference between the predicted y-coordinate and the "correct" y coordinate. Every 10th of a second, all points are fed to the network multiple times through the trainer class to train the network.</p>
+<p>下面的模拟是一维回归，其中训练神经网络以通过L2损失回归到每个给定点x的y坐标。 也就是说，最小化的成本函数计算预测的y坐标和“正确的”y坐标之间的平方差。 每隔十分之一秒，所有积分都会通过训练器类多次送入网络，以训练网络。</p>
 
-<p>The simulation below will eval() whatever you have in the text area and reload. Feel free to explore and use ConvNetJS to instantiate your own network!</p>
+<p>下面的模拟将eval()函数返回在文本区域中的任何内容并重新加载。 自由探索并使用ConvNetJS来实例化你自己的网络！</p>
 
 <p>Report questions/bugs/suggestions to <a href="https://twitter.com/karpathy">@karpathy</a>.</p>
 
@@ -52,20 +52,20 @@ canvas {
 <input id="buttontp" type="submit" value="change network" onclick="reload();" style="width: 300px; height: 50px;"/>
 
 <div style="float: right;">
-Number of points to generate:  <input type="text" name="num_points" id="num_data" value="20">
+生成的点数:  <input type="text" name="num_points" id="num_data" value="20">
 <input type="submit" value="regenerate data" style="height:50px;" onclick="regen_data();" />
 </div>
 
 <br />
-<p style="color: red">Add data points by clicking!</p>
+<p style="color: red">点击添加数据点！</p>
 <br />
 <input type="checkbox" name="draw_layer_outputs" id="layer_outs">
-Also draw outputs of a layer (click layer button below) in red.
+还输出红色绘制图层（单击下面的图层按钮）。
 <br /><div id="layer_ixes"></div>
 
-<canvas id="NPGcanvas" width="800" height="500">Browser not supported for Canvas. Get a real browser.</canvas>
+<canvas id="NPGcanvas" width="800" height="500">浏览器不支持Canvas。 获得真正的浏览器。</canvas>
 
-<p>Go <a href="http://cs.stanford.edu/people/karpathy/convnetjs/">back to ConvNetJS</a></p>
+<p><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvNetJS</a></p>
 
 </div>
 
