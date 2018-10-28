@@ -3,7 +3,7 @@
  <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>ConvNetJS Automatic</title>
+  <title>ConvNetJS 自动预测演示</title>
   <meta name="description" content="">
   <meta name="author" content="">
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
@@ -26,11 +26,10 @@
  </head>
  <body onload="start();">
   <div id="wrap">
-    <h2>ConvNetJS Automatic Prediction Demo</h2>
-    <h1>Introduction</h1>
+    <h2>ConvNetJS 自动预测演示</h2>
+    <h1>介绍</h1>
     <p>
-    This demo illustrates the usage of ConvNetJS' <b>MagicNet</b> class, which performs fully automatic prediction given your arbitrary data. Internally, the MagicNet tries out many different types of networks, performs cross-validations of network hyper-parameters across folds of your data, and creates a final classifier by model averaging the best architectures. The API for MagicNet looks as follows:
-    </p>
+    此演示说明了ConvNetJS的MagicNet类的使用，它可以根据您的任意数据执行全自动预测。 在内部，MagicNet尝试了许多不同类型的网络，跨数据折叠执行网络超参数的交叉验证，并通过模型平均最佳架构创建最终分类器。 MagicNet的API如下所示：    </p>
 
 <pre class="brush: js; toolbar: false;">
 var opts = {}; // options struct
@@ -54,93 +53,93 @@ function finishedBatch() {
 }
 </pre>
 
-    <h1>Your data</h1>
+    <h1>你的数据</h1>
     <p>
-      Currently made input data assumptions:
+      目前做出的输入数据假设：
     </p>
     <ul>
-      <li>Provide data as CSV (comma-separated) values. Leave out any header rows.</li>
-      <li>Every row is a data point.</li>
-      <li>No missing values.</li>
-      <li>Last column is the class (only classification is currently supported).</li>
+      <li>以CSV（逗号分隔）值提供数据。 省去任何标题行。</li>
+      <li>每一行都是一个数据点。</li>
+      <li>没有缺失值。</li>
+      <li>最后一列是类（目前仅支持分类）。</li>
     </ul>
     <p>
-      The text area is pre-filled with a Car Quality Evaluation dataset to show you example input, but there are a few buttons that load some example datasets (more details on these: <a href="https://archive.ics.uci.edu/ml/datasets/Iris">Iris data</a>, <a href="https://archive.ics.uci.edu/ml/datasets/Car+Evaluation">Car Eval data</a>, <a href="https://archive.ics.uci.edu/ml/datasets/Yeast">Yeast Data</a>). A nice place to find more datasets are <a href="https://archive.ics.uci.edu/ml/datasets.html?format=mat&task=cla&att=&area=&numAtt=&numIns=&type=&sort=dateDown&view=table">UCI Repository</a> or <a href="http://mldata.org/repository/data/by_views/">mldata.org</a>.
+      文本区域预先填充了汽车质量评估数据集以向您显示示例输入，但是有一些按钮可以加载一些示例数据集（有关这些的更多详细信息：<a href="https://archive.ics.uci.edu/ml/datasets/Iris">鸢尾花数据</a>，<a href="https://archive.ics.uci.edu/ml/datasets/Car+Evaluation">汽车估价数据</a>，<a href="https://archive.ics.uci.edu/ml/datasets/Yeast">酵母数据</a>）。 可访问<a href="https://archive.ics.uci.edu/ml/datasets.html?format=mat&task=cla&att=&area=&numAtt=&numIns=&type=&sort=dateDown&view=table">UCI Repository</a>或<a href="http://mldata.org/repository/data/by_views/">mldata.org</a>以获得更多数据。
     </p>
 
     <div style="text-align: center;">
-      <button class="clouds-flat-button" onclick="loadDB('data/iris.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">Fill Iris data</button>
-      <button class="clouds-flat-button" onclick="loadDB('data/car.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">Fill Car Evaluation data</button>
-      <button class="clouds-flat-button" onclick="loadDB('data/yeast.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">Fill Yeast data</button>
+      <button class="clouds-flat-button" onclick="loadDB('data/iris.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">填充鸢尾花数据</button>
+      <button class="clouds-flat-button" onclick="loadDB('data/car.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">填充汽车估价数据</button>
+      <button class="clouds-flat-button" onclick="loadDB('data/yeast.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">填充酵母数据</button>
     </div>
 
     <textarea id="data-ta" style="width:100%; height:200px;">
     </textarea>
 
-    <button class="clouds-flat-button" onclick="importTrainData()" style="width: 200px; height: 40px; margin-top: 5px;">Import Data</button>
+    <button class="clouds-flat-button" onclick="importTrainData()" style="width: 200px; height: 40px; margin-top: 5px;">导入数据</button>
     (and send <input type="text" id="testsplit" maxlength="3" value="20" style="width:40px;">% of imported data randomly into Test Set below)
 
     <div id='prepromsg'></div>
     <div id='datamsg'></div>
     
-    <h1>Cross-Validation</h1>
+    <h1>交叉验证</h1>
     
     <div>
     <input type="text" id="labelix" maxlength="4" value="-1" style="width:40px;">
-    Index of column to classify as target. (e.g. 0 = first column, -1 = last column)
+    列索引作为分类标的. (e.g. 0 = first column, -1 = last column)
     </div>
 
     <div>
     <input type="text" id="trainp" name="train_split" maxlength="3" value="70" style="width:20px;">
-    Percent of data to use for training (rest will be validation)
+    用于训练的数据占比 (余下的数据用于检验)
     </div>
 
     <div>
-    <input type="text" id="foldsnum" name="folds_number" maxlength="3" value="3" style="width:40px;"> Number of data folds to evaluate per candidate
+    <input type="text" id="foldsnum" name="folds_number" maxlength="3" value="3" style="width:40px;"> 每个候选要评估的数据折叠数
     </div>
 
     <div>
-    <input type="text" id="candsnum" name="candidates_number" maxlength="4" value="50" style="width:40px;"> Number of candidates in a batch, to evaluate in parallel
+    <input type="text" id="candsnum" name="candidates_number" maxlength="4" value="50" style="width:40px;"> 批量候选人数，并行评估
     </div>
 
     <div>
-    <input type="text" id="epochsnum" name="epochs_number" maxlength="4" value="40" style="width:40px;"> Number of epochs to make over each fold
+    <input type="text" id="epochsnum" name="epochs_number" maxlength="4" value="40" style="width:40px;"> 每个折叠的时期数量
     </div>
 
     <div>
-    Number of Neurons in each layer: Min <input type="text" id="nnmin" maxlength="4" value="5" style="width:40px;"> Max <input type="text" id="nnmax" maxlength="4" value="30" style="width:40px;"> 
+    每层中的神经元数量: 最小 <input type="text" id="nnmin" maxlength="4" value="5" style="width:40px;"> 最大 <input type="text" id="nnmax" maxlength="4" value="30" style="width:40px;"> 
     </div>
 
     <!--
     <div class="sopts">
-    Batch size sampling:<br>
-    Min: <input type="text" id="bsmin" maxlength="4" value="10" style="width:40px;"> 
-    Max: <input type="text" id="bsmax" maxlength="4" value="300" style="width:40px;"> 
+    批量大小取样:<br>
+    最小: <input type="text" id="bsmin" maxlength="4" value="10" style="width:40px;"> 
+    最大: <input type="text" id="bsmax" maxlength="4" value="300" style="width:40px;"> 
     </div>
 
     <div class="sopts">
-    L2 weight decay (values will be raised to power of 10):<br>
-    Min: <input type="text" id="l2min" maxlength="4" value="-4" style="width:40px;"> 
-    Max: <input type="text" id="l2max" maxlength="4" value="2" style="width:40px;"> 
+    L2 权重衰减 (值将被提升到10的幂):<br>
+    最小: <input type="text" id="l2min" maxlength="4" value="-4" style="width:40px;"> 
+    最大: <input type="text" id="l2max" maxlength="4" value="2" style="width:40px;"> 
     </div>
 
     <div class="sopts">
-    Learning rate for SGD/Adagrad (values will be raised to power of 10):<br>
-    Min: <input type="text" id="lrmin" maxlength="4" value="-4" style="width:40px;"> 
-    Max: <input type="text" id="lrmax" maxlength="4" value="0" style="width:40px;"> 
+    SGD/Adagrad的学习率 (值将被提升到10的幂):<br>
+    最小: <input type="text" id="lrmin" maxlength="4" value="-4" style="width:40px;"> 
+    最大: <input type="text" id="lrmax" maxlength="4" value="0" style="width:40px;"> 
     </div>
 
     <div class="sopts">
-    Momentum for SGD (must be between 0 and 1):<br>
-    Min: <input type="text" id="mommin" maxlength="4" value="0.9" style="width:40px;"> 
-    Max: <input type="text" id="mommax" maxlength="4" value="0.9" style="width:40px;"> 
+    SGD动量 (必须介于0和1之间):<br>
+    最小: <input type="text" id="mommin" maxlength="4" value="0.9" style="width:40px;"> 
+    最大: <input type="text" id="mommax" maxlength="4" value="0.9" style="width:40px;"> 
     </div>
     -->
     
-    <button class="clouds-flat-button" onclick="startCV()" style="width: 200px; height: 40px; margin-top: 5px;">Start/Restart</button>
+    <button class="clouds-flat-button" onclick="startCV()" style="width: 200px; height: 40px; margin-top: 5px;">启动/重启</button>
     <hr>
 
-    <p>Below: graph of the <b>validation accuracy</b> for current batch of candidate models as a function of the number of training points they have seen during training. Good networks will rise up as high as possible and stay there. The best performer is printed in detail below the graph. The graph is less wiggly if there is more data.</p>
+    <p>下图为当前批次候选模型的<b>验证准确度</b>图表，作为他们在训练期间看到的训练点数量的函数。 良好的网络将尽可能被提高，并留在那里。 最佳表现者在图表下方详细打印。 数据越多，图表的表现越稳定。</p>
     <div id="foldreport"></div>
     <div id="candsreport"></div>
 
@@ -148,28 +147,28 @@ function finishedBatch() {
     <div id="bestmodel"></div>
     <div id="bestmodeloverall"></div>
     
-    <h1>Evaluate on Test Set</h1>
+    <h1>评估测试集</h1>
     <p>
-      Paste a test set in box below to evaluate the final test accuracy, which is based on a model-averaged ensemble of the best discovered network from the training data above. The CSV pasted below should be in the same format as the one used for training data above. The text field is pre-filled with the training data.
+      在下面的框中粘贴测试集以评估最终测试准确度，该测试准确性基于来自上述训练数据的最佳发现网络的模型平均集合。 下面粘贴的CSV格式应与上述培训数据的格式相同。 文本字段预先填充了训练数据。
     </p>
     
     <div>
-    <input type="text" id="ensemblenum" maxlength="3" value="10" style="width:20px;"> Number of best models to average in the ensemble network
+    <input type="text" id="ensemblenum" maxlength="3" value="10" style="width:20px;"> 在整体网络中平均的最佳模型数
     </div>
 
     <textarea id="data-te" style="width:100%; height:200px;">
     </textarea>
-    <button class="clouds-flat-button" onclick="testEval()" style="width: 200px; height: 40px; margin-top: 5px;">Evaluate Test Accuracy</button>
+    <button class="clouds-flat-button" onclick="testEval()" style="width: 200px; height: 40px; margin-top: 5px;">评估测试准确度</button>
     <div id='datamsgtest'></div>
     <br>
     <div id="testresult"></div>
 
     <h1>Export Best Network</h1>
-    <button class="clouds-flat-button" onclick="exportMagicNet()" style="width: 200px; height: 40px; margin-top: 5px;">Export</button><br><br>
+    <button class="clouds-flat-button" onclick="exportMagicNet()" style="width: 200px; height: 40px; margin-top: 5px;">输出</button><br><br>
     <textarea id="taexport" style="width:100%; height:200px;">
     </textarea>
 
-    Above you can export a trained MagicNet in JSON format. The exported MagicNet is simply a thin wrapper around a list of the best networks that were discovered during cross-validation and it can be loaded and used again as follows:
+    您可以在上面导出JSON格式的训练好的MagicNet。 导出的MagicNet只是在交叉验证期间发现的最佳网络列表的一个薄包装器，它可以按如下方式加载和再次使用：
 <pre class="brush: js; toolbar: false;">
 var magicNet = new convnetjs.MagicNet();
 magicNet.fromJSON(json);
