@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ConvNetJS MNIST演示</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="css/style.css">
+
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="../build/vis.js"></script>
+<script src="../build/util.js"></script>
+<script src="../build/convnet.js"></script>
+
+<script src="js/image-helpers.js"></script>
+<script src="js/pica.js"></script>
+
+<script src="mnist/mnist_labels.js"></script>
+<script type="text/javascript">
+  // ------------------------
+  // BEGIN MNIST SPECIFIC STUFF
+  // ------------------------
+  classes_txt = ['0','1','2','3','4','5','6','7','8','9'];
+  var dataset_name = "mnist";
+  var num_batches = 21; // 20 training batches, 1 test
+  var test_batch = 20;
+  var num_samples_per_batch = 3000;
+  var image_dimension = 28;
+  var image_channels = 1;
+  var use_validation_data = true;
+  var random_flip = false;
+  var random_position = false;
+
+  var layer_defs, net, trainer;
+  var t = "layer_defs = [];\n\
+  layer_defs.push({type:'input', out_sx:24, out_sy:24, out_depth:1});\n\
+  layer_defs.push({type:'conv', sx:5, filters:8, stride:1, pad:2, activation:'relu'});\n\
+  layer_defs.push({type:'pool', sx:2, stride:2});\n\
+  layer_defs.push({type:'conv', sx:5, filters:16, stride:1, pad:2, activation:'relu'});\n\
+  layer_defs.push({type:'pool', sx:3, stride:3});\n\
+  layer_defs.push({type:'softmax', num_classes:10});\n\
+  \n\
+  net = new convnetjs.Net();\n\
+  net.makeLayers(layer_defs);\n\
+  \n\
+  trainer = new convnetjs.SGDTrainer(net, {method:'adadelta', batch_size:20, l2_decay:0.001});\n\
+  ";
+  // ------------------------
+  // END MNIST SPECIFIC STUFF
+  // ------------------------
+</script>
+<script src="js/images-demo.js"></script>
+
+</head>
+<body>
+  <div id="wrap">
+  <h2 style="text-align: center;"><a href="http://cs.stanford.edu/people/karpathy/convnetjs/">ConvNetJS</a> MNIST 演示</h2>
+  <h1>Description</h1>
+  <p>
+    此演示在您的浏览器中的<a href="http://yann.lecun.com/exdb/mnist/">MNIST数字数据集</a>上训练卷积神经网络，仅仅通过Javascript脚本。 数据集非常简单，应该可以在几分钟内达到99％的准确率。使用这个<a href="mnist_parse.zip">python脚本</a>将<a href="http://deeplearning.net/tutorial/gettingstarted.html">原始文件</a>解析为批量的可以使用img标签轻松加载到页面DOM中的图像。
+  </p>
+  <p>
+    该网络采用28x28 MNIST图像并在训练之前随机播放24x24窗口（此技术称为数据增强并改进了泛化）。与预测类似，对4个随机作物进行采样，并对所有作物的概率进行平均以产生最终预测。在主流的Ubuntu + Chrome机器上，网络的前向和后向传输大约需要5毫秒。
+  </p>
+  <p>
+    默认情况下，在本演示中，我们使用的是Adadelta，它是每个参数的自适应步长方法之一，因此我们不必担心随着时间的推移而改变学习率或动量。 但是，如果您想使用SGD + Momentum培训师，我仍然会包含用于更改这些内容的文本字段。
+  </p>
+  <p>Report questions/bugs/suggestions to <a href="https://twitter.com/karpathy">@karpathy</a>.</p>
+  <h1>训练统计</h1>
+  <div class="divsec" style="270px;">
+    <div class="secpart">
+      <input id="buttontp" type="submit" value="pause" onclick="toggle_pause();" style="width: 100px; height:30px; background-color: #FCC;"/>
+      <div id="trainstats"></div>
+
+      <div id="controls">
+        学习率: <input name="lri" type="text" maxlength="20" id="lr_input"/>
+        <input id="buttonlr" type="submit" value="change" onclick="change_lr();"/>
+        <br />
+
+        动量: <input name="momi" type="text" maxlength="20" id="momentum_input"/>
+        <input id="buttonmom" type="submit" value="change" onclick="change_momentum();"/>
+        <br />
+
+        批量大小: <input name="bsi" type="text" maxlength="20" id="batch_size_input"/>
+        <input id="buttonbs" type="submit" value="change" onclick="change_batch_size();"/>
+        <br />
+
+        权重衰减: <input name="wdi" type="text" maxlength="20" id="decay_input"/>
+        <input id="buttonwd" type="submit" value="change" onclick="change_decay();"/>
+      </div>
+
+      <input id="buttondj" type="submit" value="save network snapshot as JSON" onclick="dump_json();"/><br />
+      <input id="buttonlfj" type="submit" value="init network from JSON snapshot" onclick="load_from_json();"/><br />
+      <textarea id="dumpjson"></textarea>
+    </div>
+    <div class="secpart">
+      <div>
+        损失:<br />
+        <canvas id="lossgraph">
+        </canvas>
+        <br />
+        <input id="buttoncg" type="submit" value="clear graph" onclick="clear_graph();"/>
+      </div>
+    </div>
+    <div class="secpart"> 
+      <div id="upload_box">
+        通过你的计算机测试图像:
+        <div id="img_div">
+            <img id="preview_img"/>
+        </div>
+        <input name="image" type="file" accept="image/*" onchange="loadFile(event)">
+
+        <input type="submit" value="Test Image" onclick="testImage(document.getElementById('preview_img'))">
+      </div>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+
+  <h1>实例化网络和培训器</h1>
+  <div>
+    <textarea id="newnet" style="width:100%; height:200px;"></textarea><br />
+    <input id="buttonnn" type="submit" value="change network" onclick="change_net();" style="width:200px;height:30px;"/>
+  </div>
+
+  <div class="divsec">
+  <h1>网络可视化</h1>
+    <div id="visnet"></div>
+  </div>
+  
+  <div class="divsec">
+  <h1>测试集的示例预测</h1>
+    <div id="testset_acc"></div>
+	<div id="testset_vis"></div>
+  </div>
+
+  </div>  
+</body>
+</html>
+
+
+
